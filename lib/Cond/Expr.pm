@@ -6,7 +6,7 @@ BEGIN {
   $Cond::Expr::AUTHORITY = 'cpan:FLORA';
 }
 {
-  $Cond::Expr::VERSION = '0.01';
+  $Cond::Expr::VERSION = '0.02';
 }
 # ABSTRACT: conditionals as expressions
 
@@ -47,7 +47,6 @@ Cond::Expr - conditionals as expressions
             otherwise       { no_answer    => 1 }
         ),
     );
-}
 
 =head1 DESCRIPTION
 

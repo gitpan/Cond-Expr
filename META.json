@@ -51,7 +51,7 @@
          "web" : "http://github.com/rafl/cond-expr"
       }
    },
-   "version" : "0.01",
+   "version" : "0.02",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
