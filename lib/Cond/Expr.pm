@@ -2,12 +2,8 @@ use strict;
 use warnings;
 
 package Cond::Expr;
-BEGIN {
-  $Cond::Expr::AUTHORITY = 'cpan:FLORA';
-}
-{
-  $Cond::Expr::VERSION = '0.02';
-}
+# git description: 0.02-5-g28978b0
+{ our $VERSION = '0.03'; }
 # ABSTRACT: conditionals as expressions
 
 use Sub::Exporter -setup => {
@@ -25,17 +21,89 @@ XSLoader::load(
     $Cond::Expr::{VERSION} ? ${ $Cond::Expr::{VERSION} } : (),
 );
 
+#pod =head1 SYNOPSIS
+#pod
+#pod     my %args = (
+#pod         foo => 'bar',
+#pod         (cond
+#pod             ($answer == 42) { answer => $answer }
+#pod             ($answer)       { wrong_answer => 1 }
+#pod             otherwise       { no_answer    => 1 }
+#pod         ),
+#pod     );
+#pod
+#pod =head1 DESCRIPTION
+#pod
+#pod This module implements a Lisp-alike C<cond> control structure.
+#pod
+#pod =head2 How is this different from…
+#pod
+#pod =over 4
+#pod
+#pod =item * C<given>/C<when>
+#pod
+#pod C<given> is a statement, not an expression, and is therefore not readily usable
+#pod as part of an expression unless its use is wrapped within a C<do> block, which
+#pod is cumbersome.
+#pod
+#pod Additionally, this module avoids all the, possibly unwanted, side effects
+#pod C<given>/C<when> and its underlying smart matching mechanism happen to impose.
+#pod
+#pod =item * C<if>/C<elsif>/C<else>
+#pod
+#pod Similar to C<given>, C<if> is a statement, needing special care in order to be
+#pod useful as part of a surrounding expression.
+#pod
+#pod =item * Nested ternary C<?:>
+#pod
+#pod Using nested ternary C<?:> expressions, such as in
+#pod
+#pod   my %args = (
+#pod       foo => 'bar',
+#pod       (($answer == 42)
+#pod           ? (answer => $answer)
+#pod               : ($answer)
+#pod                   ? (wrong_answer => 1)
+#pod                       : (no_answer => 1)),
+#pod   );
+#pod
+#pod can be used to achieve functionality similar to what this module provides. In
+#pod fact, the above use of C<?:> is exactly what the L</SYNOPSIS> for this module
+#pod will compile into. The main difference is the C<cond> syntax provided by this
+#pod module being easier on the eye.
+#pod
+#pod =back
+#pod
+#pod =func C<cond>
+#pod
+#pod Takes a set of test/expression pairs. It evaluates each test one at a time. If a test
+#pod returns logical true, C<cond> evaluates and returns the value of the corresponding
+#pod expression and doesn't evaluate any of the other tests or expressions. When none of the
+#pod provided tests yield a true value, C<()> or C<undef> is returned in list and
+#pod scalar context, respectively.
+#pod
+#pod =head1 PERL REQUIREMENTS
+#pod
+#pod Due to the particular XS interfaces being used, this module requires a minimum
+#pod Perl version of 5.014.
+#pod
+#pod =cut
 
 1;
 
 __END__
+
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
 Cond::Expr - conditionals as expressions
+
+=head1 VERSION
+
+version 0.03
 
 =head1 SYNOPSIS
 
@@ -50,7 +118,7 @@ Cond::Expr - conditionals as expressions
 
 =head1 DESCRIPTION
 
-This module implements a Lisp alike C<cond> control structure.
+This module implements a Lisp-alike C<cond> control structure.
 
 =head2 How is this different from…
 
@@ -63,7 +131,7 @@ as part of an expression unless its use is wrapped within a C<do> block, which
 is cumbersome.
 
 Additionally, this module avoids all the, possibly unwanted, side effects
-C<given>/C<when> and it's underlying smart matching mechanism happen to impose.
+C<given>/C<when> and its underlying smart matching mechanism happen to impose.
 
 =item * C<if>/C<elsif>/C<else>
 
@@ -92,13 +160,18 @@ module being easier on the eye.
 
 =head1 FUNCTIONS
 
-=head2 cond
+=head2 C<cond>
 
-Takes a set of test/expr pairs. It evaluates each test one at a time. If a test
-returns logical true, cond evaluates and returns the value of the corresponding
-expr and doesn't evaluate any of the other tests or exprs. When none of the
+Takes a set of test/expression pairs. It evaluates each test one at a time. If a test
+returns logical true, C<cond> evaluates and returns the value of the corresponding
+expression and doesn't evaluate any of the other tests or expressions. When none of the
 provided tests yield a true value, C<()> or C<undef> is returned in list and
 scalar context, respectively.
+
+=head1 PERL REQUIREMENTS
+
+Due to the particular XS interfaces being used, this module requires a minimum
+Perl version of 5.014.
 
 =head1 AUTHOR
 
@@ -112,4 +185,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
