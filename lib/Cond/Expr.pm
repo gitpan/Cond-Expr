@@ -1,11 +1,9 @@
 use strict;
 use warnings;
 
-package Cond::Expr;
-# git description: 0.02-5-g28978b0
-{ our $VERSION = '0.03'; }
+package Cond::Expr; # git description: 0.03-1-ge873dfc
 # ABSTRACT: conditionals as expressions
-
+$Cond::Expr::VERSION = '0.04';
 use Sub::Exporter -setup => {
     exports => ['cond'],
     groups  => { default => ['cond'] },
@@ -103,7 +101,7 @@ Cond::Expr - conditionals as expressions
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSIS
 
